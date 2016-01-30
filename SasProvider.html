@@ -36,17 +36,13 @@
         <div class="span9" id="main">
           
 <h1>F# Data Toolbox: SAS dataset type provider</h1>
-
-<p>The SAS dataset (sas7bdat) type provider allows exploratory 
-programming with SAS files and provides native access 
+<p>The SAS dataset (sas7bdat) type provider allows exploratory
+programming with SAS files and provides native access
 to SAS datasets. No SAS software or OLE DB providers required.</p>
-
 <h2>Opening a SAS dataset file</h2>
-
 <p>If you are using F# Interactive, you first need to reference the SAS type
 provider assembly. Assuming you obtain the package from NuGet and the assembly
 is in <code>packages</code>, this would look as follows:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -57,12 +53,9 @@ is in <code>packages</code>, this would look as follows:</p>
 </code></pre></td>
 </tr>
 </table>
-
 <h3>Open SAS dataset by passing file name to SasFileTypeProvider type</h3>
-
 <p>The library gives you a parameterized type provider <code>SasFileTypeProvider</code> that
 takes the SAS data file as an argument:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -73,14 +66,10 @@ takes the SAS data file as an argument:</p>
 </code></pre></td>
 </tr>
 </table>
-
-<p>After openning the dataset, you can call methods to access 
+<p>After openning the dataset, you can call methods to access
 SAS metadata and the data itself.</p>
-
 <h2>Accessing metadata</h2>
-
 <p>The following examples show how to access meta-information about SAS dataset.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -101,11 +90,8 @@ SAS metadata and the data itself.</p>
 </code></pre></td>
 </tr>
 </table>
-
 <h2>Accessing data in a strongly-typed fashion</h2>
-
 <p>Good for exploratory programming. IntelliSense access to column names.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -118,10 +104,8 @@ SAS metadata and the data itself.</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p>The following examples show a couple of calculations that you can write
 using the standard F# library functions over the data obtained using the type provider:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -180,11 +164,8 @@ using the standard F# library functions over the data obtained using the type pr
 </code></pre></td>
 </tr>
 </table>
-
 <h2>Accessing data with F# Query Expressions</h2>
-
 <p>'query { expression } ' syntax can be used to access SAS dataset</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -209,10 +190,8 @@ using the standard F# library functions over the data obtained using the type pr
 </code></pre></td>
 </tr>
 </table>
-
 <p>You can use other constructs available inside F# query expressions to
 filter the data  or perform aggregations:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -255,9 +234,7 @@ filter the data  or perform aggregations:</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p>The following is a slightly more interesting example which joins data from two data sets:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -300,11 +277,8 @@ filter the data  or perform aggregations:</p>
 </code></pre></td>
 </tr>
 </table>
-
 <h2>Accessing data in a generic way</h2>
-
 <p>Can be used for bulk data processing or converting SAS files to text files.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -343,11 +317,8 @@ filter the data  or perform aggregations:</p>
 </code></pre></td>
 </tr>
 </table>
-
 <h2>Displaying data in a grid</h2>
-
 <p>We can display the data in a grid.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -474,7 +445,6 @@ filter the data  or perform aggregations:</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p><img src="img/SasViewer.png" alt="SAS dataset viewer" /></p>
 
 <div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
