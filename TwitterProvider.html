@@ -407,7 +407,7 @@ from the global stream of tweets.</p>
 <div class="tip" id="fs48">property FSharp.Data.JsonProvider&lt;...&gt;.Status.Text: string</div>
 <div class="tip" id="fs49">val home : FSharp.Data.JsonProvider&lt;...&gt;.Root []<br /><br />Full name: TwitterProvider.home</div>
 <div class="tip" id="fs50">property Twitter.Timelines: Timelines</div>
-<div class="tip" id="fs51">member Timelines.HomeTimeline : unit -&gt; FSharp.Data.JsonProvider&lt;...&gt;.Root []</div>
+<div class="tip" id="fs51">member Timelines.HomeTimeline : ?count:int * ?sinceId:int64 * ?maxId:int64 * ?trimUser:bool * ?contributorDetails:bool * ?includeEntities:bool -&gt; FSharp.Data.JsonProvider&lt;...&gt;.Root []</div>
 <div class="tip" id="fs52">val timeline : FSharp.Data.JsonProvider&lt;...&gt;.Root []<br /><br />Full name: TwitterProvider.timeline</div>
 <div class="tip" id="fs53">member Timelines.Timeline : screenName:string * ?count:int * ?maxId:int64 -&gt; FSharp.Data.JsonProvider&lt;...&gt;.Root []<br />member Timelines.Timeline : userId:int64 * ?count:int * ?maxId:int64 -&gt; FSharp.Data.JsonProvider&lt;...&gt;.Root []</div>
 <div class="tip" id="fs54">namespace System</div>

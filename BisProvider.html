@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>release-notes</title>
+    <title>F# Data Toolbox: BIS type provider
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="F# Data-based library for various data access APIs">
     <meta name="author" content="Evelina Gabasova">
@@ -34,90 +35,45 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h4>0.1 - April 28 2014</h4>
-<ul>
-<li>Initial release</li>
-</ul>
-<h4>0.2 - April 28 2014</h4>
-<ul>
-<li>Fixed NuGet package</li>
-</ul>
-<h4>0.2.1 - September 17 2014</h4>
-<ul>
-<li>Updates</li>
-</ul>
-<h4>0.3 - December 30 2014</h4>
-<ul>
-<li>Improve documentation</li>
-</ul>
-<h4>0.4 - January 5 2015</h4>
-<ul>
-<li>Fix dependency in NuGet package</li>
-</ul>
-<h4>0.5 - January 6 2015</h4>
-<ul>
-<li>Added geo support</li>
-<li>Fixed FSharp.Data dependency</li>
-</ul>
-<h4>0.6 - January 17 2015</h4>
-<ul>
-<li>Added function to access timeline mentions (Thanks @teramonagi!)</li>
-</ul>
-<h4>0.7 - June 26 2015</h4>
-<ul>
-<li>Update F# Data dependency to fix resource resolution issues</li>
-</ul>
-<h4>0.8 - August 5 2015</h4>
-<ul>
-<li>Inclusion of maxId in timeline requests (#29)</li>
-</ul>
-<h4>0.9 - August 7 2015</h4>
-<ul>
-<li>Fix sample JSON files to always expose user_id as int64 (#30)</li>
-</ul>
-<h4>0.10 - October 23 2015</h4>
-<ul>
-<li>Releasing the SAS type provider</li>
-</ul>
-<h4>0.11 - October 23 2015</h4>
-<ul>
-<li>Releasing the SAS type provider with minor tweaks in documentation</li>
-</ul>
-<h4>0.12 - December 27 2015</h4>
-<ul>
-<li>Fix percent encoding of multi-byte characters and search in streaming</li>
-</ul>
-<h4>0.13 - January 30 2016</h4>
-<ul>
-<li>RLE decompression bugfix (#36)</li>
-<li>Fix Travis CI build (#37)</li>
-</ul>
-<h4>0.14 - April 12 2016</h4>
-<ul>
-<li>Support Trends API from Twitter</li>
-</ul>
-<h4>0.15 - May 4 2016</h4>
-<ul>
-<li>Adding an option to use a dev-generated token (#40)</li>
-</ul>
-<h4>0.16 - May 9 2016</h4>
-<ul>
-<li>Adding ability to send a tweet and fixing a warning in the sas files (#41)</li>
-</ul>
-<h4>0.17 - May 9 2016</h4>
-<ul>
-<li>Bugfix: exception when date is encoded with less than 8 bytes (#39)</li>
-</ul>
-<h4>0.18 - June 27 2016</h4>
-<ul>
-<li>Bugfix: access to linked list by index in a performance critical part (#42)</li>
-</ul>
-<h4>0.19 - December 9 2016</h4>
-<ul>
-<li>Preview of Type Provider for Statistical Data published by Bank for International Settlements (#43)</li>
-<li>Added parameters to HomeTimeline (#45)</li>
-</ul>
+<h1>F# Data Toolbox: BIS type provider</h1>
+<p>The Bank for International Settlements type provider makes BIS statistical data easily accessible
+by providing a  wrapper around the CSV files.</p>
+<p>Under construction</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">&quot;FSharp.Data.Toolbox.Bis.dll&quot;</span>
 
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Data</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">Toolbox</span>
+
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">Prices</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="t">Bis</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">Dataset</span><span class="o">&lt;</span><span class="s">&quot;C:</span><span class="e">\\</span><span class="s">full_WEBSTATS_LONG_PP_DATAFLOW_csv.csv&quot;</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">context</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">Prices</span><span class="o">.</span><span class="i">ObservationFilter</span>()
+<span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">context</span><span class="o">.</span><span class="i">``Reference area``</span> <span class="o">&lt;-</span> 
+  [ <span class="i">prices</span><span class="o">.</span><span class="i">``Reference area``</span><span class="o">.</span><span class="i">``CH:Switzerland``</span> ]
+        
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="i">context</span><span class="o">.</span><span class="i">Get</span>()
+</code></pre></td>
+</tr>
+</table>
+
+<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="tip" id="fs2">Multiple items<br />namespace FSharp.Data<br /><br />--------------------<br />namespace Microsoft.FSharp.Data</div>
+<div class="tip" id="fs3">namespace FSharp.Data.Toolbox</div>
+<div class="tip" id="fs4">type Prices = obj<br /><br />Full name: BisProvider.Prices</div>
+<div class="tip" id="fs5">namespace FSharp.Data.Toolbox.Bis</div>
+<div class="tip" id="fs6">type Dataset<br /><br />Full name: FSharp.Data.Toolbox.Bis.Dataset</div>
+<div class="tip" id="fs7">val context : obj<br /><br />Full name: BisProvider.context</div>
+<div class="tip" id="fs8">val result : obj<br /><br />Full name: BisProvider.result</div>
 
         </div>
         <div class="span3">
