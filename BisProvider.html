@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>F# Data Toolbox: BIS type provider
+    <title>F# Data Toolbox: BIS Type Provider
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="F# Data-based library for various data access APIs">
@@ -35,10 +35,35 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1>F# Data Toolbox: BIS type provider</h1>
-<p>The Bank for International Settlements type provider makes BIS statistical data easily accessible
-by providing a  wrapper around the CSV files.</p>
-<p>Under construction</p>
+<h1>F# Data Toolbox: BIS Type Provider</h1>
+<p>The <a href="https://www.bis.org/">Bank for International Settlements (BIS)</a> publishes statistics relevant for anaylsis. Most of the data is compiled in cooperation with central banks and other national authorities.
+More information can be found on the BIS statistics <a href="https://www.bis.org/statistics/index.htm?l=2&amp;m=6%7C37">website</a>.
+The data exploration can be done either through the <a href="http://stats.bis.org/statx/toc/LBS.html">BIS Statistics Explorer</a>, <a href="http://stats.bis.org/bis-stats-tool/org.bis.stats.ui.StatsApplication/StatsApplication.html">BIS Statistics Warehouse</a> or by
+downloading the <a href="http://www.bis.org/statistics/full_data_sets.htm">raw CSV</a> formatted files. The last option is very interesting from an automation perspective, as it allows you to use an analysis tool of your choice.
+The following statistics can be downloaded from <a href="http://www.bis.org/statistics/full_data_sets.htm">here</a>:</p>
+<ul>
+<li>Locational banking statistics</li>
+<li>Consolidated banking statistics</li>
+<li>Debt securities statistics</li>
+<li>Credit to the non-financial sector</li>
+<li>Debt service ratios for the private non-financial sector</li>
+<li>Property prices: selected series</li>
+<li>Property prices: long series</li>
+<li>Effective exchange rate indices</li>
+</ul>
+<p>The BIS Type Provider extracts metadata out of the CSV file and generates an abstraction layer which simplifies filtering on the file. The main advantages are:</p>
+<ul>
+<li>Developer/research analyst analysis data through abstraction layer. No knowledge of CSV file parsing required.</li>
+<li>The IDE provides syntax highlighting based on the metadata extracted out of the CSV file. The consumer does not need to know the dimension and codes by heart.</li>
+<li>Compile-time errors are thrown in case dimensions or codes which do not exist in the metadata are used.</li>
+<li>Simple but powerful way of filtering the data (observations).</li>
+<li>One generic F# Type Provider for all of the above mentioned statistics.</li>
+</ul>
+<p>The following examples show how to run the BIS Type Provider.
+First we download the <a href="http://www.bis.org/statistics/full_data_sets.htm">Property prices: long series</a> CSV file as the structure of this data is very simple and perfect for this demo. Firstly (see code block below), the “PropertyPrice” type must be defined. By doing this, the BIS Type Provider analysis the CSV file and generates the PropertyPrice.ObservationFilter plus one type per dimension of the property price data. In this case the types “Frequency” and “Reference Area” are generated and each of them contains generated fields per dimension member.
+As shown in the picture below, the metadata is reflected in the code. With this, we have full IntelliSense support and compile-time checks!</p>
+<p><img src="img/BisPropertyPrices.jpg" alt="BIS Property Prices" /></p>
+<p>It requires only 3-4 lines of code to filter out a certain observation out of the data. The last part of the code builds up a line chart for the data we are looking for. I’m using the FSharp.Charting for the visualization.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -50,30 +75,124 @@ by providing a  wrapper around the CSV files.</p>
 <span class="l"> 9: </span>
 <span class="l">10: </span>
 <span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">&quot;FSharp.Data.Toolbox.Bis.dll&quot;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="t">PropertyPrice</span> <span class="o">=</span> <span class="i">Dataset</span><span class="o">&lt;</span><span class="s">&quot;C:/full_BIS_LONG_PP_csv.csv&quot;</span><span class="o">&gt;</span>
 
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Data</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">Toolbox</span>
+<span class="o">..</span><span class="o">..</span>
 
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">Prices</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="t">Bis</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">Dataset</span><span class="o">&lt;</span><span class="s">&quot;C:</span><span class="e">\\</span><span class="s">full_WEBSTATS_LONG_PP_DATAFLOW_csv.csv&quot;</span><span class="o">&gt;</span>
+<span class="c">// Create filter</span>
+<span class="k">let</span> <span class="i">filter</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">PropertyPrice</span><span class="o">.</span><span class="i">ObservationFilter</span>()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">context</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">Prices</span><span class="o">.</span><span class="i">ObservationFilter</span>()
-<span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">context</span><span class="o">.</span><span class="i">``Reference area``</span> <span class="o">&lt;-</span> 
-  [ <span class="i">prices</span><span class="o">.</span><span class="i">``Reference area``</span><span class="o">.</span><span class="i">``CH:Switzerland``</span> ]
-        
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="i">context</span><span class="o">.</span><span class="i">Get</span>()
+<span class="c">// Define criteria</span>
+<span class="i">filter</span><span class="o">.</span><span class="i">``Reference area``</span> <span class="o">&lt;-</span> [ <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">PropertyPrice</span><span class="o">.</span><span class="i">``Reference area``</span><span class="o">.</span><span class="i">``CH:Switzerland``</span> ]
+
+<span class="c">// Apply filter and plot</span>
+<span class="i">filter</span><span class="o">.</span><span class="i">Get</span>()
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="i">map</span> (<span class="k">fun</span> <span class="i">o</span> <span class="k">-&gt;</span> 
+                        <span class="i">o</span><span class="o">.</span><span class="i">values</span>
+                            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 6)" onmouseover="showTip(event, 'fs2', 6)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="i">filter</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">IsSome</span>)
+                            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 8)" onmouseover="showTip(event, 'fs2', 8)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 9)" onmouseover="showTip(event, 'fs3', 9)" class="i">map</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">Value</span>)
+                            <span class="o">|&gt;</span> (<span class="k">fun</span> <span class="i">x</span> <span class="k">-&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Line</span>(<span class="i">x</span>, <span class="i">Name</span> <span class="o">=</span> <span class="i">o</span><span class="o">.</span><span class="i">key</span>)))
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Combine</span>
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">WithLegend</span>(<span class="k">true</span>, <span class="i">Title</span><span class="o">=</span><span class="s">&quot;Switzerland property prices&quot;</span>)
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Show</span> 
+</code></pre></td>
+</tr>
+</table>
+<p>And this is the output of this code.</p>
+<p><img src="img/BisPropertyPricesChart.jpg" alt="BIS Property Prices Chart" /></p>
+<p>Let’s take one step further and analyse data of a much more complex dataset. The CBS file contains more records and dimensions than the Property prices dataset. The following piece of code filters out certain observations on Switzerland vis-à-vis Bahamas and Singapore and plots the outcome in a chart. Same as for the previous example, the CSV file is analysed by the BIS Type Provider and relevant types are generated.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">Cbs</span> <span class="o">=</span> <span class="i">Dataset</span><span class="o">&lt;</span><span class="s">&quot;C:/full_BIS_CBS_csv.csv&quot;</span><span class="o">&gt;</span>
+
+<span class="o">..</span><span class="o">..</span>
+     
+<span class="k">let</span> <span class="i">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="i">Cbs</span><span class="o">.</span><span class="i">ObservationFilter</span>()
+
+<span class="i">filter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 10)" onmouseover="showTip(event, 'fs5', 10)" class="i">Measure</span>                               <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="i">Measure</span><span class="o">.</span><span class="i">``S:Amounts outstanding / Stocks``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Reporting country``</span>                 <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Reporting country``</span><span class="o">.</span><span class="i">``CH:Switzerland``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``CBS bank type``</span>                     <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``CBS bank type``</span><span class="o">.</span><span class="i">``4R:Domestic banks(4B), excl. domestic positions``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``CBS reporting basis``</span>               <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``CBS reporting basis``</span><span class="o">.</span><span class="i">``F:Immediate counterparty basis``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Balance sheet position``</span>            <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Balance sheet position``</span><span class="o">.</span><span class="i">``I:International claims``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Type of instruments``</span>               <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Type of instruments``</span><span class="o">.</span><span class="i">``A:All instruments``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Remaining maturity``</span>                <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Remaining maturity``</span><span class="o">.</span><span class="i">``A:All maturities``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Currency type of booking location``</span> <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Currency type of booking location``</span><span class="o">.</span><span class="i">``TO1:All currencies``</span>]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Counterparty sector``</span>               <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Counterparty sector``</span><span class="o">.</span><span class="i">``A:All sectors``</span> ]
+<span class="i">filter</span><span class="o">.</span><span class="i">``Counterparty country``</span>              <span class="o">&lt;-</span> [ <span class="i">Cbs</span><span class="o">.</span><span class="i">``Counterparty country``</span><span class="o">.</span><span class="i">``BS:Bahamas``</span>; <span class="i">Cbs</span><span class="o">.</span><span class="i">``Counterparty country``</span><span class="o">.</span><span class="i">``SG:Singapore``</span> ]  
+
+<span class="i">filter</span><span class="o">.</span><span class="i">Get</span>()
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 12)" onmouseover="showTip(event, 'fs2', 12)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 13)" onmouseover="showTip(event, 'fs3', 13)" class="i">map</span> (<span class="k">fun</span> <span class="i">o</span> <span class="k">-&gt;</span> 
+                        <span class="i">o</span><span class="o">.</span><span class="i">values</span>
+                            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 14)" onmouseover="showTip(event, 'fs2', 14)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="i">filter</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">IsSome</span>)
+                            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 16)" onmouseover="showTip(event, 'fs2', 16)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 17)" onmouseover="showTip(event, 'fs3', 17)" class="i">map</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">Value</span>)
+                            <span class="o">|&gt;</span> (<span class="k">fun</span> <span class="i">x</span> <span class="k">-&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Line</span>(<span class="i">x</span>, <span class="i">Name</span> <span class="o">=</span> <span class="i">o</span><span class="o">.</span><span class="i">key</span>)))
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Combine</span>
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">WithLegend</span>(<span class="k">true</span>, <span class="i">Title</span><span class="o">=</span><span class="s">&quot;Switzerland vis-&#224;-vis Bahamas and Singapore&quot;</span>)
+	<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Show</span> 
+</code></pre></td>
+</tr>
+</table>
+<p><img src="img/BisCbsChart.jpg" alt="BIS CBS Chart" /></p>
+<p>The cbs.Filter() function returns a sequence of observations and their values for all periods. With F# you can easily slice out and aggregate data. In this code snippet we use the same filter as above and sum the values of 2000-Q1 of Bahamas and Singapore.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">sum</span> <span class="o">=</span> <span class="i">filter</span><span class="o">.</span><span class="i">Get</span>()
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 18)" onmouseover="showTip(event, 'fs2', 18)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 19)" onmouseover="showTip(event, 'fs3', 19)" class="i">map</span> (<span class="k">fun</span> <span class="i">o</span> <span class="k">-&gt;</span> 
+                            <span class="i">o</span><span class="o">.</span><span class="i">values</span>
+                                <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 20)" onmouseover="showTip(event, 'fs2', 20)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 21)" onmouseover="showTip(event, 'fs6', 21)" class="i">find</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">year</span> <span class="o">=</span> <span class="n">2000</span> <span class="o">&amp;&amp;</span> <span class="i">v</span><span class="o">.</span><span class="i">period</span> <span class="o">=</span> <span class="n">1</span> <span class="o">&amp;&amp;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">IsSome</span>))
+                                <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 22)" onmouseover="showTip(event, 'fs2', 22)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 23)" onmouseover="showTip(event, 'fs3', 23)" class="i">map</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span><span class="o">.</span><span class="i">value</span><span class="o">.</span><span class="i">Value</span>)
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 24)" onmouseover="showTip(event, 'fs2', 24)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 25)" onmouseover="showTip(event, 'fs7', 25)" class="i">sum</span>
 </code></pre></td>
 </tr>
 </table>
 
-<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="tip" id="fs2">Multiple items<br />namespace FSharp.Data<br /><br />--------------------<br />namespace Microsoft.FSharp.Data</div>
-<div class="tip" id="fs3">namespace FSharp.Data.Toolbox</div>
-<div class="tip" id="fs4">type Prices = obj<br /><br />Full name: BisProvider.Prices</div>
-<div class="tip" id="fs5">namespace FSharp.Data.Toolbox.Bis</div>
-<div class="tip" id="fs6">type Dataset<br /><br />Full name: FSharp.Data.Toolbox.Bis.Dataset</div>
-<div class="tip" id="fs7">val context : obj<br /><br />Full name: BisProvider.context</div>
-<div class="tip" id="fs8">val result : obj<br /><br />Full name: BisProvider.result</div>
+<div class="tip" id="fs1">type PropertyPrice = obj<br /><br />Full name: BisProvider.PropertyPrice</div>
+<div class="tip" id="fs2">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs3">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;U&gt;<br /><br />Full name: Microsoft.FSharp.Collections.Seq.map</div>
+<div class="tip" id="fs4">val filter : predicate:(&#39;T -&gt; bool) -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Collections.Seq.filter</div>
+<div class="tip" id="fs5">Multiple items<br />type MeasureAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; MeasureAttribute<br /><br />Full name: Microsoft.FSharp.Core.MeasureAttribute<br /><br />--------------------<br />new : unit -&gt; MeasureAttribute</div>
+<div class="tip" id="fs6">val find : predicate:(&#39;T -&gt; bool) -&gt; source:seq&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Collections.Seq.find</div>
+<div class="tip" id="fs7">val sum : source:seq&lt;&#39;T&gt; -&gt; &#39;T (requires member ( + ) and member get_Zero)<br /><br />Full name: Microsoft.FSharp.Collections.Seq.sum</div>
 
         </div>
         <div class="span3">
